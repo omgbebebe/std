@@ -28,6 +28,7 @@ in
     livenessProbe ? null,
     readinessProbe ? null,
     meta ? {},
+    name ? null,
   }: let
     # nixpkgs.runtimeShell is a path to the shell, not a derivation
     runtimeShellBin =
@@ -73,7 +74,7 @@ in
         cell.ops.writeScript
         ({
             inherit runtimeInputs runtimeEnv;
-            name = "operable-${l.getName package}";
+            name = "operable-${if name != null then name else (l.getName package)}";
             text = ''
               ${runtimeScript}
             '';
